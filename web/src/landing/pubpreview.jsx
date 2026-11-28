@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
-import MapSheet from '../pub/MapSheet.jsx'
+import DeskAscend from '../pub/DeskAscend.jsx'
 import { pubVars, useFilters } from '../pub/shared.jsx'
 import { applyTemplate, TEMPLATES } from '../theme.jsx'
-import { DEMO_IDENTITIES, DEMO_ROUTES, demoPlaces } from '../demoData.js'
+import { DEMO_IDENTITIES, DEMO_ROUTES, demoArrival, demoPlaces } from '../demoData.js'
 
 // A mesma tela pública que os seguidores abrem no celular (mapa + folha inferior, componente real do app), alimentada com dados de demonstração.
 const LAYOUT = { blocks: [{ id: 'header', on: true }, { id: 'links', on: false }, { id: 'filters', on: true }, { id: 'map', on: true }, { id: 'list', on: true }, { id: 'routes', on: false }], mapHeight: 'lg', listStyle: 'grid', cover: false }
@@ -19,10 +19,16 @@ export const DEMO_THEME = makeTheme({ categories: DEMO_CATS, bio: 'Restaurantes,
 export const identityTheme = (id) => makeTheme({ ...applyTemplate(DEMO_THEME, TEMPLATES.find((x) => x.id === id.tpl)), bio: id.tagline, ...(id.accent ? { accent: id.accent } : {}) })
 export const PLACES = demoPlaces()
 
-export function PubPreview({ name = 'Mapa de demonstração', handle = 'mapa_demo', avatarUrl, theme = DEMO_THEME, places = PLACES, shown, selectedId = null, snap = 'half' }) {
-  const data = useMemo(() => ({ creator: { displayName: name, handle, avatarUrl, slug: 'demo', theme, links: [], symbols: {}, cover: false, tiktok: null, demo: true }, places, routes: DEMO_ROUTES }), [name, handle, avatarUrl, theme, places])
-  const f = useFilters(places, { preview: true })
-  return <div className="pub preview lpv" style={pubVars(theme)}><MapSheet data={data} shown={shown || places} f={f} selectedId={selectedId} preview snap={snap} /></div>
+const NONE = { ids: [], toggle: () => {} }
+const CTX = { saved: NONE, track: () => {}, video: () => {}, share: () => {}, report: () => {} }
+// view: 'list' (cartões), 'map' (mapa com os pins) ou 'sobre'
+export function PubPreview({ name = 'Sabor da Cidade', handle = 'sabordacidade.demo', avatarUrl, theme = DEMO_THEME, places = PLACES, shown, view = 'list' }) {
+  const visible = shown || places
+  // como no mapa publicado: o cartão mostra o recorte do mapa e a capa do post no canto, sem foto grande
+  const list = useMemo(() => visible.map((p) => ({ ...p, cover: p.cover || p.photo, photo: null, about: p.about || 'Indicação de exemplo: o que pedir, quando ir e por que vale a visita.' })), [visible])
+  const data = useMemo(() => ({ creator: { displayName: name, handle, avatarUrl, slug: 'demo', theme, links: [], symbols: {}, cover: false, tiktok: null, demo: true, ...demoArrival() }, places: list, routes: DEMO_ROUTES, fixedView: theme.startView }), [name, handle, avatarUrl, theme, list])
+  const f = useFilters(list, { preview: true })
+  return <div className="lpv lpv-new"><div className="pub preview" style={pubVars(theme)}><DeskAscend key={view} data={data} slug="demo" ctx={CTX} f={f} mobile preview initialTab={view === 'sobre' ? 'sobre' : 'lugares'} initialShowMap={view === 'map'} initialRoute={view === 'rota' ? DEMO_ROUTES[0].id : null} /></div></div>
 }
 export { DEMO_IDENTITIES }
 

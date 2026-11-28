@@ -15,8 +15,8 @@ const Deco = ({ set, children }) => <div className="fl-host">{children}<Floaters
 const CLAIM = '/entrar?como=restaurante&criar=1'
 
 const BENEFITS = [
-  ['magnifying-glass-tilted-left', 'Veja quem indica você', 'Descubra quais criadores incluíram o seu restaurante no mapa, e quando. Sem precisar vasculhar feeds.', null],
-  ['round-pushpin', 'Corrija o que aparece', 'Endereço, nome e categoria errados queimam a indicação. Com o lugar verificado, você corrige os dados exibidos nos mapas.', null],
+  ['magnifying-glass-tilted-left', 'Veja quem indica você', 'Descubra quais criadores incluíram o seu restaurante no mapa, e quando. Sem precisar vasculhar feeds.', 'Acesso antecipado'],
+  ['round-pushpin', 'Corrija o que aparece', 'Endereço, nome e categoria errados queimam a indicação. Com o lugar verificado, você corrige os dados exibidos nos mapas.', 'Acesso antecipado'],
   ['bar-chart', 'Entenda o efeito', 'Contagens agregadas de aberturas do seu lugar e pedidos de rota, sempre sem identificar pessoas e só quando o criador autoriza.', 'Em desenvolvimento'],
   ['party-popper', 'Avise o público da sua oferta', 'Coloque uma bandeira no seu lugar com um desconto ou evento da semana. Quem abre o mapa de um criador que indicou você vê, mesmo sem acompanhar o seu Instagram.', 'Em desenvolvimento'],
 ]
@@ -60,7 +60,7 @@ function Hero() {
         </div>
         <div className="rs-hero-v">
           <Phone h={560} label="Tela pública de um mapa de criador, com o restaurante em destaque">
-            <Native h={560} theme={MAP_THEME}><PubPreview name={a.name} handle={a.handle} theme={MAP_THEME} places={PLACES6} /></Native>
+            <Native h={560} theme={MAP_THEME}><PubPreview name={a.name} handle={a.handle} theme={MAP_THEME} places={PLACES6} view="map" /></Native>
           </Phone>
           <div className="rs-float" aria-label="Exemplo de aviso do painel do restaurante">
             <span className="rs-fl-eb">Painel do restaurante</span>

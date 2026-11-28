@@ -41,7 +41,7 @@ export function Insights() {
   return (
     <section id="insights" className="sec" aria-labelledby="ins" style={{ background: '#fff' }}>
       <div className="w col" style={{ gap: 44 }}>
-        <div className="sec-h"><span className="tag" style={{ alignSelf: 'flex-start', background: 'var(--acc)' }}>WAGLI INSIGHTS</span>
+        <div className="sec-h"><span className="tag" style={{ alignSelf: 'flex-start', background: 'var(--acc)' }}>JOYMAP INSIGHTS</span>
           <h2 id="ins" className="d h-sec">Seu próximo conteúdo pode estar <span style={hl}>na busca da sua audiência.</span></h2>
           <p className="lead">Descubra o que seus seguidores procuram no seu mapa, inclusive aquilo que você ainda não recomendou.</p></div>
         <div ref={ref} className={`ins ${on ? 'on' : ''} ${rm ? 'rm' : ''} ${paused ? 'paused' : ''} ${cls}`}>

@@ -80,7 +80,7 @@ export default function SponsorStory({ route, data, look = 'areia', Map, onBack,
         <p>Cachoeiras escondidas, cânions e trilhas para quem gosta de sair do asfalto.</p>
         <dl><div><dt>Duração</dt><dd>{days.length} dias</dd></div><div><dt>Paradas</dt><dd>{route.stops.length}</dd></div><div><dt>Saída</dt><dd>São Paulo</dd></div></dl>
         <div className="ss-who">{creator.avatarUrl && <img src={creator.avatarUrl} alt="" />}<span>Roteiro de <b>{creator.displayName}</b></span></div>
-        <small>Demonstração de produto, sem parceria comercial contratada. A divisão dos dias é ilustrativa.</small>
+        <small>Demonstração de produto: a marca é fictícia, criada só para exemplificar. A divisão dos dias é ilustrativa.</small>
       </section>
 
       {days.map((d, i) => {
@@ -116,7 +116,7 @@ export default function SponsorStory({ route, data, look = 'areia', Map, onBack,
       <footer className="ss-end">
         <span>Este roteiro é um oferecimento de</span>
         {brand}
-        <span className="ss-pending">Site e equipamentos da marca: a definir</span>
+        <span className="ss-pending">Marca fictícia, criada só para exemplificar</span>
         {gm && <a className="ss-btn" href={gm.url} target="_blank" rel="noopener noreferrer">Levar o roteiro para o Google Maps</a>}
         <button type="button" className="ss-btn ghost" onClick={() => { stoppedAt.delete(route.id); onBack() }}>Voltar ao mapa de {creator.displayName.split(' ')[0]}</button>
       </footer>

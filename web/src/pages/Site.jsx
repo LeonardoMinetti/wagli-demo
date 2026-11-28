@@ -3,7 +3,8 @@ import { api } from '../api.js'
 import { Link, useLocation } from '../lib/router.jsx'
 import { Icon } from '../lib/icons.jsx'
 import { Top, SiteFooter, Toggle, useTitle } from '../lib/ui.jsx'
-import MotionMap from '../MotionMap.jsx'
+import { Phone, Native } from '../landing/device.jsx'
+import { PubPreview, makeTheme, DEMO_THEME, PLACES, withView } from '../landing/pubpreview.jsx'
 import BgMap from '../BgMap.jsx'
 import { Hero } from '../landing/hero.jsx'
 import { FeedVsMap } from '../landing/story.jsx'
@@ -85,6 +86,8 @@ const EXAMPLES = [
   { n: 'Café com Roteiro', h: '@cafecomroteiro', k: 15, tone: 'light', pal: 'warm', shape: 'circle', pins: 12, cat: 'Cafés', av: {} },
   { n: 'Verde Prato', h: '@verdeprato', k: 9, tone: 'bright', pal: 'cool', shape: 'drop', pins: 6, cat: 'Viagem', av: { background: '#cde8da', color: '#0b6b4d' } },
 ]
+const EX_ACC = { candy: '#FF8FB1', cool: '#7FB0FF', warm: '#FFC400', mono: '#2d7ff9' }
+const exTheme = (e) => withView(makeTheme({ ...DEMO_THEME, tone: e.tone, shape: e.shape, accent: e.acc || EX_ACC[e.pal], ...(e.tone === 'dark' ? { bg: '#171713', fg: '#ffffff' } : {}) }))
 export function Examples() {
   useTitle('Exemplos')
   const [f, setF] = useState('Todos')
@@ -93,7 +96,7 @@ export function Examples() {
     <div className="page lp">
       <Top active={1} />
       <div className="w col" style={{ paddingTop: 48, paddingBottom: 56, gap: 28 }}>
-        <div className="col" style={{ gap: 10 }}><h1 className="d s56">Mapas de criadores</h1><p className="mut" style={{ maxWidth: 560 }}>Cada criador escolhe o próprio visual. Exemplos fictícios para mostrar a variedade de estilos.</p></div>
+        <div className="col" style={{ gap: 10 }}><h1 className="d s56">Mapas de criadores</h1><p className="mut" style={{ maxWidth: 560 }}>Cada criador escolhe o próprio visual. Exemplos fictícios para mostrar a variedade de estilos.</p><Link className="link sm" to="/@demo">Abrir o mapa de demonstração</Link></div>
         <div className="row wrap">{['Todos', 'Restaurantes', 'Cafés', 'Bares', 'Doces', 'Viagem'].map((c) => <button key={c} className={'chip' + (f === c ? ' on' : '')} onClick={() => setF(c)}>{c}</button>)}</div>
         <div className="g3" style={{ gap: 24 }}>
           {list.map((e, i) => {
@@ -102,7 +105,7 @@ export function Examples() {
               <article key={e.n} className="ex-c" style={{ background: c[0], color: c[1] }}>
                 <span className="gd-ex">Exemplo · {e.cat}</span>
                 <div className="ex-top"><h3>{e.n}</h3><span className="ex-n">{e.k} lugares</span></div>
-                <div className="ex-map"><MotionMap h={200} tone={e.tone} pal={e.pal} acc={e.acc} shape={e.shape} n={Math.min(14, e.pins)} /></div>
+                <div className="ex-ph"><Phone h={380} cut label={`Mapa de exemplo de ${e.n}`}><Native h={380} theme={exTheme(e)}><PubPreview name={e.n} handle={e.h.slice(1)} theme={exTheme(e)} places={PLACES.slice(i, i + 8)} view="map" /></Native></Phone></div>
                 <hr />
                 <p>{e.h} · mapa de demonstração com visual {EX_TONE[e.tone]} e pins {EX_SHAPE[e.shape]}.</p>
               </article>)
@@ -127,7 +130,7 @@ export function Terms() {
         <div className="col" style={{ width: 260, gap: 4, position: 'sticky', top: 90 }}><span className="eb" style={{ marginBottom: 6 }}>Nesta página</span>
           {TERMS.map((t, i) => <a key={t} className="ix" href={`#s${i + 1}`}><b>{String(i + 1).padStart(2, '0')}</b><span>{t}</span></a>)}</div>
         <div className="col" style={{ flex: 1, gap: 18, maxWidth: 700 }}>
-          <div className="row"><span className="tag">Versão 0.1</span><span className="tag">Atualizado em [data]</span></div>
+          <div className="row"><span className="tag">Versão 0.1</span><span className="tag">Em revisão jurídica</span></div>
           <h1 className="d s56">Termos de uso e privacidade</h1>
           <div className="g3 tm3"><div className="card soft col" style={{ gap: 4 }}><b>Seu conteúdo é seu</b><span className="sm mut">Licença só para hospedar e exibir o mapa.</span></div><div className="card soft col" style={{ gap: 4 }}><b>Sem senha</b><span className="sm mut">Acesso por autorização oficial da plataforma.</span></div><div className="card soft col" style={{ gap: 4 }}><b>Você decide</b><span className="sm mut">Usos extras são opcionais e revogáveis.</span></div></div>
           {TERMS.map((t, i) => (
@@ -135,9 +138,9 @@ export function Terms() {
               <h2 className="d s26">{String(i + 1).padStart(2, '0')} · {t}</h2>
               {i === 4 ? (
                 <div className="card col"><div className="row"><div className="sp"><b>Aparecer no mapa geral</b><div className="sm mut">Seu mapa pode entrar na descoberta em rede.</div></div><span className="sw" /></div><div className="sep" /><div className="row"><div className="sp"><b>Dados agregados para restaurantes</b><div className="sm mut">Contagens sem dados de pessoas.</div></div><span className="sw" /></div></div>
-              ) : <p className="mut">[Texto jurídico a ser redigido com apoio de advogado.]{i === 2 ? ' Esta tela mostra a estrutura: títulos numerados à esquerda, resumo em três cartões e seções em linguagem direta.' : ''}</p>}
+              ) : <p className="mut">Redação em revisão jurídica.</p>}
             </div>))}
-          <p className="xs mut">Texto ilustrativo. A redação final depende de revisão jurídica (LGPD e termos das plataformas).</p>
+          <p className="xs mut">Estes termos ainda não estão em vigor. A redação final depende de revisão jurídica (LGPD e termos das plataformas).</p>
         </div>
       </div>
       <SiteFooter />
@@ -178,7 +181,6 @@ export function Unavailable() {
         <h1 className="d s56">Este mapa não está disponível</h1>
         <p className="mut">O criador pausou ou retirou o mapa. Se você acha que é um engano, avise o criador.</p>
         <Link className="btn" to="/exemplos">Ver outros mapas</Link>
-        <p className="xs mut">Mostrado também quando o período de teste terminou e o mapa saiu do ar.</p>
       </div>
     </div>
   )

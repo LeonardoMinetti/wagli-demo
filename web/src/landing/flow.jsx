@@ -38,13 +38,13 @@ function StepMap() {
   const n = Math.min(f, 6)
   return (
     <Phone h={PH} cut label="Pins aparecendo na tela pública conforme os lugares são identificados">
-      <Native h={PH}>{ever && <PubPreview theme={MAP_THEME} places={PLACES6} shown={PLACES6.slice(0, n)} />}</Native>
+      <Native h={PH}>{ever && <PubPreview theme={MAP_THEME} places={PLACES6} shown={PLACES6.slice(0, n)} view="map" />}</Native>
       <div className="mk-toast2"><i className={f >= 7 ? 'ok' : ''} />{f >= 7 ? 'Mapa pronto' : 'Lendo suas publicações…'}<b>{n} {n === 1 ? 'lugar' : 'lugares'}</b></div>
     </Phone>
   )
 }
 // Passo 3 · identidade (tema, símbolos e formato trocando na tela real)
-const STYLES = [['Mapa de demonstração', 'mapa_demo', MAP_THEME, 'Modelo padrão'], ...DEMO_IDENTITIES.map((id, i) => [id.name, id.handle, withView(identityTheme(id)), ['Modelo Solar', 'Modelo Doce', 'Modelo Noite'][i]])]
+const STYLES = [['Sabor da Cidade', 'sabordacidade.demo', MAP_THEME, 'Modelo padrão'], ...DEMO_IDENTITIES.map((id, i) => [id.name, id.handle, withView(identityTheme(id)), ['Modelo Solar', 'Modelo Doce', 'Modelo Noite'][i]])]
 const STYLE_AV = [undefined, ...DEMO_IDENTITIES.map((id) => ph(id.avatar))]
 function StepStyle() {
   const { on, rm, paused } = useScene()
@@ -53,7 +53,7 @@ function StepStyle() {
   const [name, handle, theme, label] = STYLES[f]
   return (
     <Phone h={PH} cut label="A mesma tela pública assumindo estilos de mapa, cores e símbolos diferentes">
-      <Native h={PH} theme={theme}>{ever && <PubPreview name={name} handle={handle} avatarUrl={STYLE_AV[f]} theme={theme} places={PLACES6} />}</Native>
+      <Native h={PH} theme={theme}>{ever && <PubPreview name={name} handle={handle} avatarUrl={STYLE_AV[f]} theme={theme} places={PLACES6} view="map" />}</Native>
       <div className="mk-toast2"><i className="ok" />Estilo<b>{label}</b></div>
     </Phone>
   )
@@ -74,7 +74,7 @@ function StepBio() {
 const STEPS = [
   ['Conecte sua conta.', 'Autorize a análise das suas publicações por meio das integrações oficiais, quando disponíveis, sem compartilhar sua senha.', <StepConnect />, { background: '#E4E4E4' }],
   ['A gente conecta os pontos.', 'Identificamos os lugares mencionados nas publicações autorizadas e os organizamos em um mapa.', <StepMap />, { background: '#FF5C8A' }],
-  ['Deixe tudo com a sua cara.', 'Revise suas recomendações, ajuste o que precisar e personalize a identidade visual do seu mapa.', <StepStyle />, { background: 'var(--ink)', color: '#F1F1F1' }],
+  ['Deixe tudo com a sua cara.', 'Revise suas recomendações, ajuste o que precisar e personalize a identidade visual do seu mapa. Blocos como agenda e marcas podem ficar ocultos.', <StepStyle />, { background: 'var(--ink)', color: '#F1F1F1' }],
   ['Seu mapa, na sua bio.', 'Compartilhe um único link com sua audiência. Sem aplicativo, sem cadastro e sem complicação para quem acessa.', <StepBio />, { background: '#fff' }],
 ]
 export function HowItWorks() {

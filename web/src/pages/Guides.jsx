@@ -61,7 +61,7 @@ export function Guides() {
       </header>
       <main className="w mg-main">
         {!d ? <Loading /> : <>
-          {d.demo && <p className="xs mut">Exemplos de demonstração: criadores, lugares e roteiros são fictícios.</p>}
+          {d.demo && <p className="xs mut">Roteiros do mapa de demonstração: os lugares são reais; a marca parceira é fictícia e as fotos são ilustrativas.</p>}
           {cities.length > 1 && <div className="mg-chips" role="group" aria-label="Filtrar por cidade">{['', ...cities].map((c) => <button key={c} type="button" className={'chip' + (city === c ? ' on' : '')} aria-pressed={city === c} onClick={() => setCity(c)}>{c || 'Todas as cidades'}</button>)}</div>}
           <div className="mg-grid">{list.map((g, i) => <Card key={g.id} g={g} i={i} />)}</div>
           {!list.length && <p className="mut">Os primeiros RoteirosJoy estão sendo escolhidos.</p>}

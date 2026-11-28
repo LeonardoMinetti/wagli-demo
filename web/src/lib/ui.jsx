@@ -28,12 +28,12 @@ export function Top({ active = -1, overlay = false, dark = false }) {
       <header className={'topbar' + (sc || open ? ' sc' : '') + (dark ? ' dk' : '')}>
         <Logo write />
         <nav className="l" aria-label="Principal">{NAV.map(([l, to], i) => <Link key={l} className={i === active ? 'it on' : 'it'} to={to}>{l}</Link>)}</nav>
-        <Link className="it tb-ex" to="/@demo">Explorar mapas</Link>
+        <Link className="it tb-ex" to="/@demo">Ver um mapa</Link>
         {me?.user ? (homeLink(me) && <Link className="btn sm" to={homeLink(me)[1]}>{homeLink(me)[0]}</Link>) : <>
           <Link className="btn ln sm tb-in" to="/entrar">Entrar</Link>
           <Link className="btn sm" to="/entrar?criar=1">Pedir convite</Link></>}
         <button type="button" className="tb-burger" aria-label={open ? 'Fechar menu' : 'Abrir menu'} aria-expanded={open} aria-controls="tb-menu" onClick={() => setOpen(!open)}><i /><i /><i /></button>
-        {open && <div id="tb-menu" className="tb-menu">{NAV.map(([l, to]) => <Link key={l} to={to} onClick={go}>{l}</Link>)}<Link to="/@demo" onClick={go}>Explorar mapas</Link>{me?.user ? (homeLink(me) && <Link to={homeLink(me)[1]} onClick={go}>{homeLink(me)[0]}</Link>) : <Link to="/entrar" onClick={go}>Entrar</Link>}</div>}
+        {open && <div id="tb-menu" className="tb-menu">{NAV.map(([l, to]) => <Link key={l} to={to} onClick={go}>{l}</Link>)}<Link to="/@demo" onClick={go}>Ver um mapa</Link>{me?.user ? (homeLink(me) && <Link to={homeLink(me)[1]} onClick={go}>{homeLink(me)[0]}</Link>) : <Link to="/entrar" onClick={go}>Entrar</Link>}</div>}
       </header>
     </>
   )
@@ -45,7 +45,7 @@ export function SiteFooter() {
   return (
     <footer className="w sf">
       <Logo size={26} />
-      <nav className="sf-l" aria-label="Rodapé">{exp}<Link to="/roteirosjoy">RoteirosJoy</Link><Link to="/termos">Termos</Link><Link to="/termos">Privacidade</Link><Link to="/perguntas">Contato</Link><Link to="/para-restaurantes">Para restaurantes</Link><Link to="/voo">Meu voo</Link></nav>
+      <nav className="sf-l" aria-label="Rodapé">{exp}<Link to="/roteirosjoy">RoteirosJoy</Link><Link to="/termos">Termos e privacidade</Link><Link to="/perguntas">Perguntas</Link><Link to="/para-restaurantes">Para restaurantes</Link><Link to="/voo">Meu voo</Link></nav>
     </footer>
   )
 }

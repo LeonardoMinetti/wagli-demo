@@ -25,7 +25,7 @@ const TONE = { light: 'Claro', bright: 'Vivo', liberty: 'Clássico', fiord: 'Azu
 const edited = (id) => { const t = TEMPLATES.find((x) => x.id === id.tpl); return ['Nome e foto de perfil', `Modelo ${t.name}`, SHAPE[t.t.shape], `Mapa ${TONE[t.t.tone]}`, 'Bio e cor principal'] }
 const STEPS = { profile: 3200, tap: 520, map: 5200 }
 
-function CreatorStage({ id, phase, onOpen, onClose }) {
+function CreatorStage({ id, phase, view }) {
   const [ever, setEver] = useState(false)
   const theme = useMemo(() => withView(identityTheme(id)), [id])
   const places = useMemo(() => PLACES.filter((p) => PICK[id.key].includes(p.id)), [id.key])
@@ -34,7 +34,7 @@ function CreatorStage({ id, phase, onOpen, onClose }) {
     <div className="gx-ph" key={id.key}>
       <Phone h={560} label={`Perfil de demonstração de ${id.name}; o link da bio abre o mapa do criador`}>
         <Native h={560}><SocialProfile name={id.name} handle={id.handle.replace('.demo', '')} bio={id.tagline} lines={id.bio} avatar={id.avatar} grid={GRIDS[id.key]} highlights={id.hl} counts={COUNTS[id.key]} link={`Mapa de lugares · ${id.name}`} tap={phase === 1} /></Native>
-        <div className={'sheet-up full' + (phase === 2 ? ' open' : '')} style={{ background: theme.bg }}><Native h={560} theme={theme}>{ever && <PubPreview name={id.name} handle={id.handle} avatarUrl={ph(id.avatar)} theme={theme} places={places} />}</Native></div>
+        <div className={'sheet-up full' + (phase === 2 ? ' open' : '')} style={{ background: theme.bg }}><Native h={560} theme={theme}>{ever && <PubPreview name={id.name} handle={id.handle} avatarUrl={ph(id.avatar)} theme={theme} places={places} view={view} />}</Native></div>
       </Phone>
     </div>
   )
@@ -44,6 +44,7 @@ export function Gallery() {
   const [cur, setCur] = useState(0)
   const [phase, setPhase] = useState(0) // 0 perfil, 1 toque no link, 2 mapa aberto
   const [auto, setAuto] = useState(true)
+  const [view, setView] = useState('map') // tela do mapa aberto: mapa, lugares ou sobre
   const [ref, on] = useInView(0.3)
   const rm = useReducedMotion()
   const { paused } = usePause()
@@ -84,7 +85,10 @@ export function Gallery() {
         <div className="gx-r">
           <div className="gx-disc" aria-hidden="true" />
           <div onMouseEnter={() => { if (hov) { setAuto(false); open() } }} onMouseLeave={() => { if (hov && !auto) close() }}>
-            <CreatorStage id={id} phase={phase} />
+            <CreatorStage id={id} phase={phase} view={view} />
+          </div>
+          <div className="gx-views" role="group" aria-label="Tela do mapa">
+            {[['map', 'Mapa'], ['list', 'Lugares'], ['sobre', 'Sobre']].map(([k, l]) => <button key={k} type="button" aria-pressed={phase === 2 && view === k} onClick={() => { setAuto(false); setView(k); setPhase(2) }}>{l}</button>)}
           </div>
           <div className="gx-cap">
             <div><b className="d s20">{id.name}</b><span>{NICHE[id.key]} · perfil de demonstração</span></div>

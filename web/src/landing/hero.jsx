@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from '../lib/router.jsx'
 import { Phone, Native, S } from './device.jsx'
-import { CHIPS_BOTTOM } from '../pub/MapSheet.jsx'
 import { PostCard, ph } from './social.jsx'
 import { DEMO_IDENTITIES, DEMO_THEME, PLACES, PubPreview, identityTheme, makeTheme } from './pubpreview.jsx'
 import { Scene, useFit, useMedia, usePause, useReducedMotion } from './motion.jsx'
@@ -76,11 +75,11 @@ function HeroInner({ compact, rm, paused }) {
   useEffect(() => {
     if (compact) return
     const calc = () => {
-      const root = ref.current, mm = root?.querySelector('.ms-map'), sh = root?.querySelector('.ms-sheet')
-      if (!root || !mm || !sh) return
-      const rr = root.getBoundingClientRect(), mr = mm.getBoundingClientRect(), sr = sh.getBoundingClientRect(), k = rr.width / W
+      const root = ref.current, mm = root?.querySelector('.as-map')
+      if (!root || !mm) return
+      const rr = root.getBoundingClientRect(), mr = mm.getBoundingClientRect(), k = rr.width / W
       const cx = (mr.left - rr.left + mr.width / 2) / k
-      const cy = ((mr.top - rr.top) / k + CHIPS_BOTTOM * S + (sr.top - rr.top) / k) / 2 // centro da região visível do mapa
+      const cy = (mr.top - rr.top + mr.height / 2) / k // centro do mapa
       const c = proj(HERO_VIEW.lat, HERO_VIEW.lon, HERO_VIEW.zoom)
       setTg(PLACES6.map((p) => { const q2 = proj(p.lat, p.lon, HERO_VIEW.zoom); return [cx + (q2[0] - c[0]) * S, cy + (q2[1] - c[1]) * S - 12] }))
     }
@@ -94,7 +93,7 @@ function HeroInner({ compact, rm, paused }) {
     <div ref={ref} className="hs-in" style={compact ? undefined : { width: W, height: H }}>
       <div className={'hs-ph' + (q.big ? ' big' : '')} style={compact ? undefined : { left: PX, top: PY }}>
         <Phone h={PH} label="Tela pública do mapa de um criador, com pins aparecendo conforme as publicações são identificadas">
-          <Native h={PH} theme={ident ? T1 : T0}><PubPreview name={ident ? RUA.name : 'Mapa de demonstração'} handle={ident ? RUA.handle : 'mapa_demo'} avatarUrl={ident ? ph(RUA.avatar) : undefined} theme={ident ? T1 : T0} places={PLACES6} shown={shown} snap="low" /></Native>
+          <Native h={PH} theme={ident ? T1 : T0}><PubPreview name={ident ? RUA.name : 'Sabor da Cidade'} handle={ident ? RUA.handle : 'sabordacidade.demo'} avatarUrl={ident ? ph(RUA.avatar) : undefined} theme={ident ? T1 : T0} places={PLACES6} shown={shown} view="map" /></Native>
           <div className={'hs-badge' + (ident ? ' on' : '')} aria-hidden="true"><i />Identidade do criador</div>
         </Phone>
       </div>
@@ -120,7 +119,7 @@ export function Hero() {
           <p className="s20" style={{ maxWidth: 520, fontWeight: 500 }}>Transforme suas indicações de lugares em um mapa com a sua identidade e descubra o que sua audiência quer ver a seguir.</p>
           <div className="row wrap" style={{ gap: 12 }}>
             <Link className="btn dk btn-lg" to="/entrar?criar=1">Pedir convite</Link>
-            <Link className="btn ln btn-lg" to="/@demo">Explorar um mapa</Link>
+            <Link className="btn ln btn-lg" to="/@demo">Ver um mapa de exemplo</Link>
           </div>
           <p className="xs hero2-mc">Entrada por convite, com plano grátis.</p>
           <ul className="hero2-kinds" aria-label="Para quem indica">{['Restaurantes e cafés', 'Viagens', 'Passeios', 'Esportes e clubes'].map((k) => <li key={k}>{k}</li>)}</ul>

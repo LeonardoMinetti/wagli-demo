@@ -23,7 +23,7 @@ const Emo = ({ cat, s = 16 }) => <i className="as-emo" aria-hidden="true" danger
 const fold = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
 
-function CardMap({ places, theme, symbols, active, path, me, onPick, onHover }) {
+function CardMap({ places, theme, symbols, active, path, me, onPick, onHover, view }) {
   const el = useRef(null), map = useRef(null), layer = useRef(null), fitted = useRef('')
   const v = useLibVersion()
   useEffect(() => {
@@ -52,6 +52,8 @@ function CardMap({ places, theme, symbols, active, path, me, onPick, onHover }) 
   }, [places, active, path, v, theme, me])
   useEffect(() => {
     const key = places.map((p) => p.id).join()
+    // nas prévias do site a vista é fixa: os pins aparecem um a um sem o mapa se mexer
+    if (view) return void map.current.setView([view.lat, view.lon], view.zoom, { animate: false })
     if (!places.length || fitted.current === key) return
     fitted.current = key
     map.current.fitBounds(L.latLngBounds(places.map((p) => [p.lat, p.lon])), { padding: [48, 48], maxZoom: 15 })
@@ -80,6 +82,7 @@ export default function DeskAscend({ data: original, slug, ctx, initialTab = 'lu
     const f = (e) => {
       const el = e.target === document ? document.scrollingElement : e.target
       if (!el.contains(root.current)) return // só a rolagem da própria página
+      if (preview && el === document.scrollingElement) return // a prévia não reage à rolagem do site
       const y = el.scrollTop
       setCompact((c) => (c ? y > 8 : y > 96))
     }
@@ -306,8 +309,8 @@ export default function DeskAscend({ data: original, slug, ctx, initialTab = 'lu
         <div className="pfoot">{showBrand && <>Mapa feito com <b>JoyMap</b><br /></>}<a className="as-osm" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">Mapas © colaboradores do OpenStreetMap</a></div>
       </main>
 
-      <aside className="as-side">{(!mobile || showMap) && <CardMap places={mapped} theme={theme} symbols={creator.symbols} active={place ? place.id : active} path={path} me={filters?.near} onPick={mobile ? setActive : see} onHover={mobile ? undefined : tab === 'sobre' || tab === 'lugares' || route ? setActive : undefined} />}
-        {mobile && showMap && (() => { const p = mapped.find((x) => x.id === active); return p ? <button type="button" className="as-peek" onClick={() => { setShowMap(false); see(p.id) }}><span className="as-ph"><PlacePhoto place={p} theme={theme} size={64} /></span><span><small>{p.neighborhood || p.municipality} · {catOf(theme, p.category).name}</small><b>{p.name}</b><em>Ver o lugar →</em></span></button> : <p className="as-peek none">Toque em um pino para ver o lugar.</p> })()}
+      <aside className="as-side">{(!mobile || showMap) && <CardMap view={data.fixedView} places={mapped} theme={theme} symbols={creator.symbols} active={place ? place.id : active} path={path} me={filters?.near} onPick={mobile ? setActive : see} onHover={mobile ? undefined : tab === 'sobre' || tab === 'lugares' || route ? setActive : undefined} />}
+        {mobile && showMap && (() => { const p = mapped.find((x) => x.id === active); return p ? <button type="button" className="as-peek" onClick={() => { setShowMap(false); see(p.id) }}><span className="as-ph"><PlacePhoto place={p} theme={theme} size={64} /></span><span><small>{p.neighborhood || p.municipality} · {catOf(theme, p.category).name}</small><b>{p.name}</b><em>Ver o lugar →</em></span></button> : null })()}
       </aside>
       {!preview && !place && creator.demo && route?.sponsor && route.cover && route.stops?.length > 0 && <SponsorStory route={route} data={data} Map={CardMap} onBack={() => setRouteId(null)} onPlace={see} />}
       {account && <MapLogin creator={creator} slug={creator.slug} savedCount={saved.length} onSaved={() => go('salvos')} onClose={() => setAccount(false)} />}

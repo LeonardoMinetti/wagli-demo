@@ -82,7 +82,7 @@ function Trust() {
 // Cartões: mesma paleta dos roteiros (amarelo, preto, cinza, menta) mais lilás.
 const CARDS = [
   { k: 'ins', tag: 'Insights', t: 'O que a audiência busca e não encontra', d: 'Veja o que as pessoas procuram no seu mapa e ainda não encontram. Cada busca sem resultado vira uma ideia de conteúdo.', bg: 'var(--acc)', fg: 'var(--ink)', av: { img: ['sushi', 'ramen', 'sushi2'], more: 4 }, body: Searches },
-  { k: 'cat', tag: 'Insights', t: 'Categorias e bairros com mais interesse', d: 'Descubra quais categorias e bairros despertam mais interesse na sua audiência.', bg: 'var(--ink)', fg: '#fff', av: { img: ['pizza', 'massa', 'burger'], more: 5 }, body: Categories },
+  { k: 'cat', tag: 'Em desenvolvimento', t: 'Categorias e bairros com mais interesse', d: 'Descubra quais categorias e bairros despertam mais interesse na sua audiência.', bg: 'var(--ink)', fg: '#fff', av: { img: ['pizza', 'massa', 'burger'], more: 5 }, body: Categories },
   { k: 'top', tag: 'Insights', t: 'Recomendações que mais despertam interesse', d: 'Saiba quais das suas indicações são mais abertas, sem identificar quem abriu.', bg: '#E4E4E4', fg: 'var(--ink)', av: { img: ['latte', 'croissant', 'bolo'], more: 6 }, body: TopOpened },
   { k: 'ctl', tag: 'Controle', t: 'Você decide o que é publicado e compartilhado', d: 'Nada vai ao ar sem a sua aprovação, e cada compartilhamento é uma decisão separada sua.', bg: '#A5DFCA', fg: 'var(--ink)', av: { em: ['handshake', 'world-map', 'star'] }, body: Choices },
   { k: 'priv', tag: 'Confiança', t: 'Sem senhas, sem mensagens, sem expor pessoas', d: 'Você não precisa dar a senha das suas redes, e o JoyMap não lê mensagens nem identifica pessoas.', bg: '#C9B0E9', fg: 'var(--ink)', av: { em: ['locked', 'sparkles', 'handshake'] }, body: Trust },
@@ -117,9 +117,9 @@ export function InsightsControl() {
   return (
     <section id="insights" className="sec pn-sec" aria-labelledby="ins">
       <div className="w col" style={{ gap: 36 }}>
-        <div className="sec-h"><span className="tag" style={{ alignSelf: 'flex-start' }}>WAGLI INSIGHTS · CONTROLE E CONFIANÇA</span>
+        <div className="sec-h"><span className="tag" style={{ alignSelf: 'flex-start' }}>JOYMAP INSIGHTS · CONTROLE E CONFIANÇA</span>
           <h2 id="ins" className="d h-sec">Seu próximo conteúdo pode estar <span style={hl}>na busca da sua audiência.</span> E as decisões continuam <span style={{ ...hl, '--hl': '#C9B0E9' }}>com você.</span></h2>
-          <p className="lead">As redes mostram como um conteúdo performou. O JoyMap pode mostrar o que as pessoas tentam encontrar, sem abrir mão da privacidade de ninguém.</p></div>
+          <p className="lead">As redes mostram como um conteúdo performou. O JoyMap pode mostrar o que as pessoas tentam encontrar, sem abrir mão da privacidade de ninguém. Números, buscas e nomes destes cartões são ilustrativos.</p></div>
         <div ref={ref} className="sl">
           <div className="sl-tabs" role="tablist" aria-label="Insights e controle">
             {CARDS.map((x, n) => <button key={x.k} type="button" role="tab" aria-selected={n === i} className={n === i ? 'on' : ''} onClick={() => go(n)}><i aria-hidden="true" style={{ background: x.bg }} />{SHORT[n]}</button>)}

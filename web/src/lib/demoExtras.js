@@ -35,7 +35,7 @@ const groups = () => DEMO_PLACES.slice(0, 12).map((p, i) => {
 
 // ---------- miniguias ----------
 let GUIDES
-const guides = () => (GUIDES ||= DEMO_GUIDES.map((g) => ({ ...g, published: true, photo: withBase(`/photos/${g.photo}.jpg`), avatar: g.avatar ? withBase(`/photos/${g.avatar}.jpg`) : null })))
+const guides = () => (GUIDES ||= DEMO_GUIDES.map((g) => ({ ...g, published: true, photo: /^https:/.test(g.photo) ? g.photo : withBase(`/photos/${g.photo}.jpg`), avatar: g.avatar ? withBase(`/photos/${g.avatar}.jpg`) : null })))
 
 // ---------- administração ----------
 const MIN = 10000

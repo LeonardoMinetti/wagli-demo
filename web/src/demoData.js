@@ -180,7 +180,7 @@ export const ownerArrival = () => ({
   brands: [
     { name: 'Columbia', logo: `${COMMONS}c/c2/Columbia_Sportswear_Co_logo.svg` },
     { name: 'Makita', logo: `${COMMONS}7/71/Makita_Logo.svg`, plate: true }, // letras brancas numa placa: não dá para pintar pela silhueta
-    { name: 'Galápagos', logo: '/sponsors/galapagos.png' },
+    { name: 'Xisto Outdoor', logo: '/sponsors/xisto.svg' },
     { name: 'Bolovo' }, // falta o arquivo do logo
   ],
 })

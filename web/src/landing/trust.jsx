@@ -7,6 +7,8 @@ import { Switch } from '../lib/ui.jsx'
 import { Scene } from './motion.jsx'
 import { Floaters } from './doodles.jsx'
 import { FAQ } from './faq.js'
+import { Phone, Native } from './device.jsx'
+import { PubPreview, MAP_THEME } from './pubpreview.jsx'
 
 const em = (n) => ({ lib: `lib:fluent3d:${n}` })
 const hl = { background: 'linear-gradient(transparent 60%, var(--hl, var(--acc)) 60%)', padding: '0 4px' }
@@ -64,7 +66,14 @@ export function Monetize() {
               <p>{g.d}</p>
             </article>))}
         </Scene>
-        <p className="xs mut">Visão futura, ainda não disponível. Roteiros, nomes e quantidades são exemplos, sem valores definidos.</p>
+        <div className="rt-now">
+          <div className="col" style={{ gap: 14 }}>
+            <h3 className="d s32">Como um roteiro aparece no mapa</h3>
+            <ul className="tr-l">{['Paradas em ordem, por dia e horário', 'Linha do tempo ou lista, como o seguidor preferir', 'O trajeto desenhado no mapa', 'Um botão para levar o roteiro ao Google Maps', 'Parcerias sempre identificadas, com o logo da marca'].map((t) => <li key={t}><i aria-hidden="true"><Icon n="check" s={12} c="#171713" /></i>{t}</li>)}</ul>
+            <p className="xs mut">Roteiros fazem parte dos planos Criador e Pro, e parcerias do Pro, ambos em breve. A venda ainda não está disponível. Roteiros, nomes e quantidades desta seção são exemplos, sem valores definidos.</p>
+          </div>
+          <Phone h={560} label="Um roteiro aberto no mapa de demonstração"><Native h={560} theme={MAP_THEME}><PubPreview theme={MAP_THEME} view="rota" /></Native></Phone>
+        </div>
       </div>
     </section>
   )
@@ -85,7 +94,8 @@ const T = {
   roteiro: 'Você cria roteiros com paradas e história. Cada um pode ficar grátis ou ser vendido, e a JoyMap cobra uma taxa só sobre as vendas.',
   produto: 'Coloque o link de um produto, como uma mochila ou um guia, dentro de um roteiro, para o seguidor ver e abrir.',
   patrocinado: 'Faça um roteiro em parceria com uma marca. Ele aparece com a etiqueta "Roteiro patrocinado" e o logo da marca no cartão, para o seguidor saber que é parceria.',
-  dominio: 'O endereço do seu mapa usa o seu nome, como maps.wagli/natalia-souza. Nos outros planos o endereço leva um código, como maps.wagli/k7x2p.',
+  dominio: 'O seu mapa pode abrir num domínio seu, como mapa.seunome.com.br.',
+  categorias: 'No Pro você cria as suas categorias, além das que o JoyMap já oferece.',
   visits: 'Total de visitas ao seu mapa, sem o detalhe de buscas e cliques.',
 }
 const PLANS = [
@@ -94,20 +104,20 @@ const PLANS = [
   { k: 'creator', icon: 'trophy', name: 'Criador', price: ['R$ 39,90', 'R$ 399'], per: ['por mês', 'por ano'], note: 'No anual, 2 meses grátis.', who: 'Para quem quer o mapa completo, sempre em dia.', trial: true, main: true,
     items: [['Mapa completo, com todo o histórico', T.full], ['Atualização automática do mapa, a partir dos seus posts', T.auto], ['Estúdio de estilo completo', T.studio], ['Painel com buscas, buscas sem resultado, lugares abertos e cliques em rota', T.panel], ['Criação de roteiros que podem ser vendidos, com taxa de 8% por venda', T.roteiro], ['Produtos nos seus roteiros', T.produto]] },
   { k: 'pro', icon: 'crown', name: 'Pro', price: ['R$ 79', 'R$ 790'], per: ['por mês', 'por ano'], note: 'No anual, 2 meses grátis.', who: 'Para quem vende roteiros e quer a marca própria.', trial: true,
-    items: [['Tudo do plano Criador, com histórico maior no painel', T.panel], ['Sem a marca JoyMap na página', T.brand], ['Domínio personalizado', T.dominio], ['Criação de roteiros que podem ser vendidos, com taxa de 5% por venda', T.roteiro], ['Criação de roteiros patrocinados com marcas parceiras', T.patrocinado], ['Fechar publi direto com restaurantes', null, true], ['Pin em destaque, sempre com a marca de publi', null, true], ['Relatório de publi para marcas', null, true]] },
+    items: [['Tudo do plano Criador, com histórico maior no painel', T.panel], ['Sem a marca JoyMap na página', T.brand], ['Domínio personalizado', T.dominio], ['Categorias próprias', T.categorias], ['Criação de roteiros que podem ser vendidos, com taxa de 5% por venda', T.roteiro], ['Criação de roteiros patrocinados com marcas parceiras', T.patrocinado], ['Fechar publi direto com restaurantes', null, true], ['Pin em destaque, sempre com a marca de publi', null, true], ['Relatório de publi para marcas', null, true]] },
 ].map((p) => ({ ...p, items: p.items.filter((it) => !it[2]) }))
 const Y = 'Sim', N = 'Não'
 // [item, Grátis, Criador, Pro, explicação, oculto?]
 const COMPARE = [
   ['Preço', 'R$ 0', 'R$ 39,90 por mês ou R$ 399 por ano', 'R$ 79 por mês ou R$ 790 por ano'],
   ['Para quem', 'Engajar o público, sem vender nada', 'Mapa completo, sempre em dia', 'Vender roteiros e ter a marca própria'],
-  ['Lugares no mapa', 'Posts recentes', 'Mapa completo, com todo o histórico', 'Mapa completo, com todo o histórico', T.recent],
+  ['Lugares no mapa', 'Até 20, dos posts recentes', 'Sem limite, com todo o histórico', 'Sem limite, com todo o histórico', T.limite],
   ['Atualização do mapa', 'Manual: você adiciona e atualiza os lugares', 'Automática, a partir dos seus posts', 'Automática, a partir dos seus posts', T.auto],
   ['Sem a marca JoyMap na página', N, N, Y, T.brand],
-  ['Lugares no mapa', 'Até 20', 'Sem limite', 'Sem limite', T.limite],
+  ['Categorias', 'As do JoyMap', 'As do JoyMap', 'Até 15, com categorias próprias', T.categorias],
   ['Estúdio de estilo', 'Não, usa o tema padrão', 'Completo', 'Completo', T.studio],
   ['Painel de audiência', 'Visitas totais', 'Buscas, buscas sem resultado, lugares abertos e cliques em rota', 'Tudo do Criador, com histórico maior', T.panel],
-  ['Banner do restaurante na ficha do lugar', 'Liberado', 'Liberado', 'Liberado', 'O restaurante pode mostrar uma promoção ou o cardápio na ficha do lugar dele, sempre identificado como do restaurante.'],
+  ['Banner do restaurante na ficha do lugar', 'Em breve', 'Em breve', 'Em breve', 'O restaurante vai poder mostrar uma promoção ou o cardápio na ficha do lugar dele, sempre identificado como do restaurante. Ainda não está disponível.'],
   ['Relatório de publi para marcas', N, N, Y, null, true],
   ['Fechar publi direto com restaurantes', N, N, Y, null, true],
   ['Pin em destaque para restaurante com publi', N, N, Y, null, true],
@@ -232,7 +242,7 @@ export function FinalCta() {
         <span className="tag" style={{ background: 'var(--cream)' }}>Seu jeito. Seu voo.</span>
         <h2 id="fim" className="d h-sec" style={{ maxWidth: 760 }}>Você já tem o conteúdo. Falta o mapa.</h2>
         <p className="lead" style={{ maxWidth: 560 }}>Dê um novo destino às suas recomendações e descubra até onde elas podem levar sua audiência.</p>
-        <div className="row wrap" style={{ gap: 12, justifyContent: 'center' }}><Link className="btn dk btn-lg" to="/entrar?criar=1">Pedir convite</Link><Link className="btn ln btn-lg" to="/@demo">Explorar um mapa</Link></div>
+        <div className="row wrap" style={{ gap: 12, justifyContent: 'center' }}><Link className="btn dk btn-lg" to="/entrar?criar=1">Pedir convite</Link><Link className="btn ln btn-lg" to="/@demo">Ver um mapa de exemplo</Link></div>
       </div>
     </section>
   )

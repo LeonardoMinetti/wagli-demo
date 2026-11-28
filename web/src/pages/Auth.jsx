@@ -100,8 +100,8 @@ const Bottom = ({ kind, criar, voltar }) => (
 
 const TEXT = {
   criador: ['Acesse o seu painel, o Estúdio de estilo e o seu mapa.', ''],
-  explorador: ['Veja os lugares que você salvou, os criadores que acompanha e a sua conta.', 'Guarde lugares de qualquer mapa e encontre tudo num só lugar, em qualquer aparelho. Sem painel e sem senha.'],
-  restaurante: ['Acesse o painel do seu restaurante: quem indica o seu lugar e o que dizem dele.', 'Conta de restaurante: reivindique o seu lugar, veja quais criadores o indicam e corrija os dados exibidos nos mapas.'],
+  explorador: ['Veja os lugares que você salvou, os criadores que acompanha e a sua conta.', 'Guarde lugares de qualquer mapa e encontre tudo num só lugar, em qualquer aparelho. Sem painel e sem senha. As contas ainda não abriram para o público.'],
+  restaurante: ['Acesse o painel do seu restaurante: quem indica o seu lugar e os dados exibidos nos mapas.', 'Conta de restaurante: reivindique o seu lugar, veja quais criadores o indicam e corrija os dados exibidos nos mapas.'],
 }
 // E-mail sem senha (entrar, ou criar conta de explorador ou restaurante). Criador que cria conta passa pelo pedido de mapa (ApplyForm).
 function EmailForm({ kind, criar, voltar }) {
