@@ -172,15 +172,5 @@ export const DEMO_ROUTES = [
   ] },
 ]
 
-// no mapa do fundador não há patrocínio: são marcas que ele admira, só com o logo numa cor
-const COMMONS = 'https://upload.wikimedia.org/wikipedia/commons/'
-export const ownerArrival = () => ({
-  ...demoArrival(),
-  brandsTitle: 'Marcas que admiro',
-  brands: [
-    { name: 'Columbia', logo: `${COMMONS}c/c2/Columbia_Sportswear_Co_logo.svg` },
-    { name: 'Makita', logo: `${COMMONS}7/71/Makita_Logo.svg`, plate: true }, // letras brancas numa placa: não dá para pintar pela silhueta
-    { name: 'Xisto Outdoor', logo: '/sponsors/xisto.svg' },
-    { name: 'Bolovo' }, // falta o arquivo do logo
-  ],
-})
+// mapa de demonstração (@demo): criador e marcas fictícios; a Xisto é a parceira do roteiro patrocinado
+export const demoMapArrival = () => { const a = demoArrival(); return { ...a, brands: [{ name: 'Xisto Outdoor (marca fictícia)', logo: '/sponsors/xisto.svg' }, ...a.brands.slice(0, 3)] } }

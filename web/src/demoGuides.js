@@ -1,6 +1,6 @@
 // RoteirosJoy da demonstração: são os roteiros do próprio mapa de demonstração, para o cartão abrir o mesmo roteiro que anuncia.
 const COVER_5 = 'https://commons.wikimedia.org/wiki/Special:FilePath/Vale%20do%20Corisco%20com%20a%20Cachoeira%20do%20Corisco%20ao%20fundo.jpg?width=960'
-const g = (id, name, note, photo, city, count, color) => ({ id, name, note, by: 'Leonardo Minetti', handle: 'leosminetti', avatar: 'leonardo', photo, city, count, color, featured: true, href: `/@demo/roteiros/${id}` })
+const g = (id, name, note, photo, city, count, color) => ({ id, name, note, by: 'Criador Demo', handle: 'criador_demo', avatar: null, photo, city, count, color, featured: true, href: `/@demo/roteiros/${id}` })
 export const DEMO_GUIDES = [
   g(1, 'Cafés para ficar um tempo', 'Para um sábado sem pressa, um café de cada vez.', 'latte', 'São Paulo', 4, '#FF4B2B'),
   g(2, 'Pão e doce de fim de semana', 'Padarias e doces para começar bem o dia.', 'croissant', 'São Paulo', 4, '#EC4899'),

@@ -97,7 +97,7 @@ export default function DeskAscend({ data: original, slug, ctx, initialTab = 'lu
   const [routeId, setRouteId] = useState(initialRoute)
   const [view, setView] = useState('timeline')
   const [over, setOver] = useState(null) // roteiro sob o mouse
-  const first = creator.displayName.split(' ')[0]
+  const first = creator.demo && !creator.realProfile ? creator.displayName : creator.displayName.split(' ')[0]
   const Me = ({ s: size }) => creator.avatarUrl ? <img className="as-meface" src={creator.avatarUrl} alt="" style={{ width: size, height: size }} /> : <span className="as-meface" style={{ width: size, height: size }}>{first[0]}</span>
   const [q, setQ] = useState('')
   const [cat, setCat] = useState('')

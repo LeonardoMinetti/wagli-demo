@@ -118,7 +118,7 @@ export default function SponsorStory({ route, data, look = 'areia', Map, onBack,
         {brand}
         <span className="ss-pending">Marca fictícia, criada só para exemplificar</span>
         {gm && <a className="ss-btn" href={gm.url} target="_blank" rel="noopener noreferrer">Levar o roteiro para o Google Maps</a>}
-        <button type="button" className="ss-btn ghost" onClick={() => { stoppedAt.delete(route.id); onBack() }}>Voltar ao mapa de {creator.displayName.split(' ')[0]}</button>
+        <button type="button" className="ss-btn ghost" onClick={() => { stoppedAt.delete(route.id); onBack() }}>Voltar ao mapa de {creator.realProfile ? creator.displayName.split(' ')[0] : creator.displayName}</button>
       </footer>
     </div>
   )
