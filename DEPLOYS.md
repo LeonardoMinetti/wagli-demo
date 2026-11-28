@@ -85,3 +85,4 @@ Os deploys anteriores a esta convenção (repositório antigo `wagli-demo`) não
 | 077 | 2026-11-28 16:14 | mapa | visual novo do mapa, perfil proprio e e-mail oculto | `deploy/mapa/077-visual-novo-do-mapa-perfil-proprio-e-e-m` |
 | 078 | 2026-11-28 16:43 | site | site com o mapa novo, marca ficticia no demo e credito recolhido | `deploy/site/078-site-com-o-mapa-novo-marca-ficticia-no-d` |
 | 079 | 2026-11-28 17:02 | mapa | demo agora e o criador demo | `deploy/mapa/079-demo-agora-e-o-criador-demo` |
+| 080 | 2026-11-28 17:14 | mapa | foto de perfil do criador demo | `deploy/mapa/080-foto-de-perfil-do-criador-demo` |

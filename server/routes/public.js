@@ -43,7 +43,7 @@ export default function publicRoutes(app, x) {
     if (c.req.param('slug') !== DEMO_SLUG) return next()
     // o mapa abre em São Paulo, mesmo com lugares visitados em viagem
     const theme = { ...sanitizeTheme({ ...DEFAULT_THEME, accent: '#FFC400', bg: '#FFFFFF', tone: 'light', shape: 'circle', bio: DEMO_BIO, social: { instagram: true, tiktok: false } }), start: 'pick', startView: { lat: -23.565, lon: -46.655, zoom: 11.5 } }
-    return c.json({ creator: { handle: 'criador_demo', tiktok: null, slug: DEMO_SLUG, displayName: 'Criador Demo', theme, links: [], cover: false, symbols: {}, demo: true, showBrand: false, ...demoMapArrival() }, places: DEMO_MAP.places, routes: DEMO_MAP.routes })
+    return c.json({ creator: { handle: 'criador_demo', tiktok: null, slug: DEMO_SLUG, displayName: 'Criador Demo', avatarUrl: '/photos/rafa.jpg', theme, links: [], cover: false, symbols: {}, demo: true, showBrand: false, ...demoMapArrival() }, places: DEMO_MAP.places, routes: DEMO_MAP.routes })
   })
   app.get('/api/public/:slug', (c) => {
     const row = live(c.req.param('slug'))
