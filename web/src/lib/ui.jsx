@@ -131,12 +131,7 @@ function RolePanel({ items, active, label, banner, children, loginTo }) {
 }
 const EXP = [['salvos', 'Salvos', 'heart', '/salvos'], ['criadores', 'Criadores', 'map', '/salvos/criadores'], ['conta', 'Conta', 'user', '/salvos/conta']]
 export const ExplorerPage = ({ active, children }) => (
-  <RolePanel items={EXP} active={active} label="Explorador" loginTo="/entrar?como=explorador&voltar=%2Fsalvos"
-    banner={<Link className="mapbn" to="/@demo" aria-label="Explorar um mapa">
-      <span className="mapbn-pv"><FakeMap h={104} tone="light" shape="drop" acc="#ff4b2b" n={6} lab={false} /></span>
-      <span className="mapbn-tx"><b className="sm">Explorar um mapa</b><span className="xs">Descubra novos lugares</span></span>
-      <Icon n="next" s={16} c="currentColor" />
-    </Link>}>{children}</RolePanel>
+  <RolePanel items={EXP} active={active} label="Explorador" loginTo="/entrar?como=explorador&voltar=%2Fsalvos">{children}</RolePanel>
 )
 // Cabeçalho de página dos painéis: título, resumo e ações à direita. Padrão único.
 export const PageHead = ({ title, sub, right }) => <div className="row jb wrap pg-h"><div><h1 className="d s44">{title}</h1>{sub && <p className="sm mut">{sub}</p>}</div>{right}</div>

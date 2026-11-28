@@ -3,6 +3,7 @@ import { googleSearchUrl } from '../../../server/placelinks.js'
 import VisitButton from './VisitButton.jsx'
 import MapSheet, { PubTabs } from './MapSheet.jsx'
 import PlaceFicha from './PlaceFicha.jsx'
+import DeskAscend from './DeskAscend.jsx'
 import { useOwnerIcon } from '../lib/favicon.js'
 import DeskMap from './Desk.jsx'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -140,7 +141,7 @@ export default function Public({ slug, embed }) {
     saved, track: t, video: (id) => { setVideoId(id); t('video_open', { placeId: id }) },
     share: (p) => setOverlay({ kind: 'share', place: p }), report: (p) => setOverlay({ kind: 'report', place: p }),
   }
-  const request = () => { t('request', { term: f.q.trim() }); setRequested(true); toast('Pedido enviado, de forma anônima') }
+  const request = (term) => { t('request', { term: typeof term === 'string' ? term : f.q.trim() }); setRequested(true); toast('Pedido enviado, de forma anônima') }
   const usedCats = theme.categories.filter((c) => places.some((p) => catsOf(p).includes(c.id))).sort((a, b) => a.name.localeCompare(b.name))
   const fichaMatch = rel.match(/^\/lugar\/(\d+)$/)
   // paradas que só existem em um roteiro também abrem a ficha
@@ -164,6 +165,13 @@ export default function Public({ slug, embed }) {
     <div className="pub embed" style={wrapStyle}><MapCanvas places={places} theme={theme} symbols={creator.symbols} selectedId={selectedId} onSelect={(id) => pickPlace(id)} style={{ height: '100dvh' }} />
       {sel && <div className="sheetfull"><PlaceRow p={sel} theme={theme} onClick={() => window.open(url, '_blank')} right={<a className="pb sm" href={`https://www.google.com/maps/dir/?api=1&destination=${sel.lat},${sel.lon}`} target="_blank" rel="noopener noreferrer">Rota</a>} /></div>}</div>
   )
+
+  // ?visual=antigo continua abrindo o mapa anterior (vale até fechar a aba); ?visual=novo volta
+  const visual = search.get('visual')
+  if (visual) try { sessionStorage.setItem('joymap:mapa', visual) } catch { /* sem armazenamento */ }
+  let keep = visual
+  try { keep = visual || sessionStorage.getItem('joymap:mapa') } catch { /* sem armazenamento */ }
+  if (keep !== 'antigo') return <div className="pub" style={{ ...wrapStyle, width: '100%' }}><DeskAscend mobile={!desk} f={f} onRequest={request} requested={requested} onShare={() => setOverlay({ kind: 'share' })} data={data} slug={slug} ctx={ctx} initialPlace={fichaPlace ? fichaPlace.id : null} initialRoute={route ? route.id : null} initialTab={rel.startsWith('/salvos') ? 'salvos' : ['roteiros', 'sobre', 'salvos'].includes(search.get('p')) ? search.get('p') : 'lugares'} />{overlays}</div>
 
   // E12 · computador: painel largo à esquerda e mapa à direita (organização de guia), com o design do celular
   if (desk) {

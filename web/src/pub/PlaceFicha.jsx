@@ -43,6 +43,7 @@ export default function PlaceFicha({ place, data, ctx }) {
           {place.postUrl && <PostLink url={place.postUrl} creator={creator} className="pb sec ficha-post" onOpen={() => ctx.track('post_open', { placeId: place.id })} />}
         </div>
         <div className="fx-info">
+          {(place.neighborhood || place.municipality) && <span className="fx-hood">{place.neighborhood || place.municipality}</span>}
           <h1 className="pt fx-name">{place.name}</h1>
           {rating && <div className="fx-rating">
             <>

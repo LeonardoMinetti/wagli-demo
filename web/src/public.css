@@ -417,3 +417,5 @@
 .pub .arr-news-f .pb{flex:0 0 auto;min-height:44px}.pub .arr-news-f .pb:disabled{opacity:.45;cursor:default}.pub .arr-news-f input:disabled{opacity:.7}
 .tl-pass{display:grid;place-items:center;width:100%;aspect-ratio:16/9;border-radius:14px;background:color-mix(in srgb,var(--acc) 18%,var(--bg))}.tl-pass i{display:inline-flex}
 .sp-bar{gap:8px}.sp-bar .sp-logo{margin-left:0}
+.pub .arr-plate{width:100%;height:40px;object-fit:contain;filter:grayscale(1) invert(1) contrast(20)}
+.pub .fx-hood{display:none}

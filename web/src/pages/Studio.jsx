@@ -6,6 +6,8 @@ import { Logo, Guard, Loading, Note, Switch, Side, Tabs, Field, useTitle } from 
 import { useMe } from '../lib/me.jsx'
 import FakeMap from '../FakeMap.jsx'
 import MapCanvas from '../MapCanvas.jsx'
+import DeskAscend from '../pub/DeskAscend.jsx'
+import { newMap } from '../lib/skin.jsx'
 import MapSheet from '../pub/MapSheet.jsx'
 import { pubVars } from '../pub/shared.jsx'
 import { LIBS, SAMPLE_ICON } from '../iconcat.js'
@@ -84,7 +86,15 @@ function focusPlaces(places, mode) {
   for (const p of near) if (!seen.has(p.category)) { seen.add(p.category); out.push(p) }
   return out.length >= 3 ? out.slice(0, 9) : near.slice(0, 9)
 }
+// a prévia no visual novo: a mesma tela do seguidor, com o tema que está sendo editado
+const NO_SAVED = { ids: [], toggle: () => {}, logged: false }
+function NewPreview({ data, view }) {
+  const first = data.places.find((p) => p.lat != null)
+  const ctx = useMemo(() => ({ saved: NO_SAVED, track: () => {}, video: () => {}, share: () => {}, report: () => {} }), [])
+  return <div className="sk-preview"><div className="sk-scroll"><div className="pub" style={pubVars(data.creator.theme)}><DeskAscend key={view} data={data} slug={data.creator.slug} ctx={ctx} mobile preview initialShowMap={view === 'map'} initialPlace={view === 'place' ? first?.id : null} /></div></div></div>
+}
 function StudioPhone({ active, fake }) {
+  const fresh = newMap()
   const s = useStudio()
   const theme = s.data.creator.theme
   const [pick, setPick] = useState(null) // escolha manual do visitante; some ao trocar de aba do Estúdio
@@ -106,6 +116,15 @@ function StudioPhone({ active, fake }) {
   const first = useRef(true)
   useEffect(() => { if (first.current) { first.current = false; return } setFlash(true); const t = setTimeout(() => setFlash(false), 800); return () => clearTimeout(t) }, [sig])
   const cap = VIEWS.find((v) => v[0] === view)[2]
+  if (fresh) return (
+    <div className="stp">
+      <div className="stp-seg" role="tablist" aria-label="Tela da prévia">
+        {VIEWS.map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={view === k} className={view === k ? 'on' : ''} onClick={() => setPick(k)}>{l}</button>)}
+      </div>
+      <NewPreview data={{ ...data, places, routes: s.data.routes || [] }} view={view} />
+      <p className="stp-cap"><b>{VIEWS.find((v) => v[0] === view)[1]}</b> · {cap}</p>
+    </div>
+  )
   return (
     <div className="stp">
       <div className="stp-seg" role="tablist" aria-label="Tela da prévia">
@@ -314,6 +333,10 @@ export function StudioMap() {
       <Sec title="Nomes de bairros">
         <div className="row"><div className="sp"><b className="sm">Mostrar rótulos no mapa</b><div className="xs mut">Aparecem até o zoom 12</div></div><Switch on={T.mapLabels} onChange={(v) => setTheme({ mapLabels: v })} label="Nomes de bairros" /></div>
         <div style={{ opacity: T.mapLabels ? 1 : 0.45 }}><div className="row jb"><Lb>Quantidade de rótulos</Lb><b className="xs">{T.labelDensity}%</b></div><Slider value={T.labelDensity} onChange={(v) => setTheme({ labelDensity: v })} label="Quantidade de rótulos" /></div>
+      </Sec>
+      <Sec title="Blocos do Sobre" hint="Texto, últimos lugares, onde mais vai e “Fique por dentro” aparecem sempre">
+        {[['agenda', 'Agenda e próximo evento', 'Seus encontros e eventos'], ['brands', 'Marcas', 'Os logos das marcas']].map(([k, l, d]) => { const off = T.hide?.includes(k); return (
+          <div key={k} className="row"><div className="sp"><b className="sm">{l}</b><div className="xs mut">{d}</div></div><Switch on={!off} onChange={(v) => setTheme({ hide: v ? (T.hide || []).filter((x) => x !== k) : [...(T.hide || []), k] })} label={l} /></div>) })}
       </Sec>
       <Note>Os estilos de mapa são do OpenFreeMap (Positron, Bright, Fiord e Dark), sobre dados do OpenStreetMap. Revise o uso dos tiles antes do lançamento. Créditos dos símbolos: <a className="link" href="/licencas-simbolos.txt" target="_blank" rel="noopener">licenças</a>.</Note>
     </Shell>

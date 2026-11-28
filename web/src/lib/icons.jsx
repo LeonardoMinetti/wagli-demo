@@ -2,6 +2,7 @@ import { libHtml, libIcon, useLibVersion } from '../iconlib.js'
 import React from 'react'
 
 // Conjunto de ícones do protótipo (traço 2px, 24x24).
+const android = typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent)
 export const ICON_PATHS = {
   pin: 'M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11zM12 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z',
   rest: 'M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 2-3 5-3 8h3v10',
@@ -17,7 +18,8 @@ export const ICON_PATHS = {
   check: 'M20 6 9 17l-5-5',
   chart: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
   link: 'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
-  share: 'M12 3v13M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5',
+  // cada aparelho vê o compartilhar que já conhece: três pontos ligados no Android, seta saindo da caixa no resto
+  share: android ? 'M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8.6 13.5l6.8 4M15.4 6.5l-6.8 4' : 'M12 3v13M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5',
   play: 'M8 5v14l11-7z',
   filter: 'M3 5h18l-7 8v6l-4 2v-8L3 5z',
   user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0',

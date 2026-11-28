@@ -20,8 +20,13 @@ import { num } from '../theme.jsx'
 export const IconCircle = ({ n, c, bg }) => <div className="sq" style={{ width: 64, height: 64, borderRadius: '50%', background: bg, display: 'grid', placeItems: 'center', flex: 'none' }}><Icon n={n} s={30} c={c} /></div>
 
 // Na demonstração publicada (sem servidor) o acesso por e-mail está liberado só para este e-mail, que entra como administrador
-const OWNER = 'leonardom67.lm@gmail.com'
-const Google = () => (
+// a conta autorizada na demonstração fica só como resumo (SHA-256): o endereço não aparece no código público
+const OWNER_HASH = '8d654e522afb1a4ccd40ec5b77e7df2561040aa87f8d7607cd5b3590072ef77e'
+export const isOwner = async (email) => {
+  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(email).trim().toLowerCase()))
+  return [...new Uint8Array(d)].map((b) => b.toString(16).padStart(2, '0')).join('') === OWNER_HASH
+}
+export const Google = () => (
   <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
     <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z" />
     <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z" />
@@ -114,7 +119,7 @@ function EmailForm({ kind, criar, voltar }) {
     e?.preventDefault(); setErr('')
     if (criar && kind !== 'criador' && !terms) { setErr('É preciso aceitar os Termos e a Política de Privacidade.'); return }
     if (STATIC) { // sem servidor: só o e-mail autorizado recebe o link de teste
-      if (email.trim().toLowerCase() !== OWNER) { setErr('Na demonstração, o acesso por e-mail está liberado só para contas autorizadas.'); return }
+      if (!(await isOwner(email))) { setErr('Na demonstração, o acesso por e-mail está liberado só para contas autorizadas.'); return }
       setSent({ demo: true }); setWait(30); return
     }
     try { setSent(await api('/auth/request', { method: 'POST', body: kind === 'explorador' ? { email, next: 'viewer', back: voltar } : kind === 'restaurante' ? { email, next: 'restaurante' } : { email } })); setWait(30) } catch (x) { setErr(x.message === 'email_invalido' ? 'Digite um e-mail válido.' : 'Não foi possível enviar. Tente de novo.') }

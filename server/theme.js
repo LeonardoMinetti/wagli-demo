@@ -12,6 +12,8 @@ const LINK_STYLES = ['fill', 'line', 'soft']
 const HEIGHTS = ['sm', 'md', 'lg']
 const LISTS = ['grid', 'rows']
 const HEX = /^#[0-9a-fA-F]{6}$/
+// o Sobre sempre mostra o texto, os últimos lugares, onde mais vai e o "Fique por dentro"; só estes podem sair
+export const ABOUT_OPTIONAL = ['agenda', 'brands']
 
 // Categorias fixas do wagli: o criador não adiciona, remove nem renomeia; só escolhe cor e símbolo de cada uma.
 
@@ -24,6 +26,7 @@ export const DEFAULT_THEME = {
   accent: '#ff4b2b', bg: '#ffffff', fg: '#171717', font: 'sans', radius: 14, contrastAuto: true,
   tone: 'light', shape: 'drop', pinSize: 55, pinBorder: true, cluster: true, selected: 'outline',
   mapLabels: true, labelDensity: 40, start: 'all', startView: null,
+  hide: [], // blocos opcionais do Sobre que o criador escondeu
   linkStyle: 'fill', social: { instagram: true, tiktok: false }, bio: '', layout: DEFAULT_LAYOUT,
   categories: CATEGORIES.map((c) => ({ ...c })),
 }
@@ -81,6 +84,7 @@ export function sanitizeTheme(input = {}, opts = {}) {
     linkStyle: pick(LINK_STYLES, t.linkStyle, 'fill'),
     social: { instagram: t.social?.instagram !== false, tiktok: !!t.social?.tiktok },
     bio: String(t.bio || '').slice(0, 600),
+    hide: ABOUT_OPTIONAL.filter((k) => Array.isArray(t.hide) && t.hide.includes(k)),
     layout: { ...DEFAULT_LAYOUT, blocks: DEFAULT_LAYOUT.blocks.map((b) => ({ ...b })) }, // o layout da página é fixo: o criador não o edita
   }
   const given = new Map((Array.isArray(t.categories) ? t.categories : []).map((c) => [String(c?.id), c || {}]))

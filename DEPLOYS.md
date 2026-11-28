@@ -82,3 +82,4 @@ Os deploys anteriores a esta convenção (repositório antigo `wagli-demo`) não
 | 074 | 2026-11-27 20:28 | ajuste | roteiro canions volta ao padrao dos roteiros patrocinados | `deploy/ajuste/074-roteiro-canions-volta-ao-padrao-dos-rote` |
 | 075 | 2026-11-27 20:56 | ajuste | quadro com emoji nas paradas sem lugar | `deploy/ajuste/075-quadro-com-emoji-nas-paradas-sem-lugar` |
 | 076 | 2026-11-27 21:06 | ajuste | faixa de patrocinio so com em parceria com e o logo | `deploy/ajuste/076-faixa-de-patrocinio-so-com-em-parceria-c` |
+| 077 | 2026-11-28 16:14 | mapa | visual novo do mapa, perfil proprio e e-mail oculto | `deploy/mapa/077-visual-novo-do-mapa-perfil-proprio-e-e-m` |

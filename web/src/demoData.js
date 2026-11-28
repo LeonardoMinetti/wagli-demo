@@ -171,3 +171,16 @@ export const DEMO_ROUTES = [
     { placeId: 39, when: '23h', title: 'Sorvete para voltar a pé', text: 'Os sabores da estação acabam primeiro.', tip: '' },
   ] },
 ]
+
+// no mapa do fundador não há patrocínio: são marcas que ele admira, só com o logo numa cor
+const COMMONS = 'https://upload.wikimedia.org/wikipedia/commons/'
+export const ownerArrival = () => ({
+  ...demoArrival(),
+  brandsTitle: 'Marcas que admiro',
+  brands: [
+    { name: 'Columbia', logo: `${COMMONS}c/c2/Columbia_Sportswear_Co_logo.svg` },
+    { name: 'Makita', logo: `${COMMONS}7/71/Makita_Logo.svg`, plate: true }, // letras brancas numa placa: não dá para pintar pela silhueta
+    { name: 'Galápagos', logo: '/sponsors/galapagos.png' },
+    { name: 'Bolovo' }, // falta o arquivo do logo
+  ],
+})

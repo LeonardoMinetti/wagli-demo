@@ -2,6 +2,7 @@
 import React from 'react'
 import { PlacePhoto } from './shared.jsx'
 import { Icon } from '../lib/icons.jsx'
+import { withBase } from '../lib/base.js'
 import { latest, highlights, brandsOf, agendaOf } from '../lib/arrival.js'
 
 const MONTHS = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
@@ -44,11 +45,11 @@ export default function Arrival({ data, theme, onOpen, onHood, onAll }) {
         <div className="arr-chips">{h.hoods.map((b) => <button key={b.name} type="button" className="arr-chip" onClick={() => onHood(b.name)}><Icon n="pin" s={13} c="currentColor" />{b.name}<em>{b.n}</em></button>)}</div>
       </section>}
 
-      {brands.length > 0 && <section aria-label="Marcas que me apoiam">
-        <h2 className="arr-h">Marcas que me apoiam</h2>
+      {brands.length > 0 && <section aria-label={creator.brandsTitle || 'Marcas que me apoiam'}>
+        <h2 className="arr-h">{creator.brandsTitle || 'Marcas que me apoiam'}</h2>
         <ul className="arr-brands">{brands.map((b) => {
-          const mask = b.logo && `url("${b.logo}") center / contain no-repeat`
-          const inner = b.logo ? <i className="arr-logo" role="img" aria-label={b.name} style={{ WebkitMask: mask, mask }} /> : <b>{b.name}</b>
+          const mask = b.logo && `url("${withBase(b.logo)}") center / contain no-repeat`
+          const inner = b.logo && b.plate ? <img className="arr-plate" src={withBase(b.logo)} alt={b.name} /> : b.logo ? <i className="arr-logo" role="img" aria-label={b.name} style={{ WebkitMask: mask, mask }} /> : <b>{b.name}</b>
           return <li key={b.name}>{b.url ? <a href={b.url} target="_blank" rel="noopener noreferrer sponsored" title={b.name}>{inner}</a> : <span title={b.name}>{inner}</span>}</li>
         })}</ul>
       </section>}

@@ -1,7 +1,7 @@
 import { serveStatic } from '@hono/node-server/serve-static'
 import { readFileSync, existsSync } from 'node:fs'
 import { sha, j, placeKey } from '../lib.js'
-import { DEMO_SLUG, demoArrival } from '../../web/src/demoData.js'
+import { DEMO_SLUG, ownerArrival } from '../../web/src/demoData.js'
 import { DEFAULT_THEME, sanitizeTheme } from '../theme.js'
 import { can } from '../plans.js'
 import { lockRoute } from '../offers.js'
@@ -12,7 +12,7 @@ const PAYMENTS = process.env.PAYMENTS === 'on'
 // mapa de demonstração: perfil do fundador (com autorização dele) e uma amostra de lugares reais da base;
 // marcas, agenda, fotos dos "vídeos" e links de postagem são ilustrativos
 const DEMO_MAP = JSON.parse(readFileSync(new URL('../demo-map.json', import.meta.url), 'utf8'))
-const DEMO_BIO = "Aqui estão os lugares de São Paulo que eu mais gosto: onde tomo café sem pressa, onde levo quem vem de fora e onde volto sempre que bate a vontade de comer bem.\n\nTem padaria de bairro, restaurante para um jantar mais caprichado, bar para encontrar os amigos e alguns passeios. Escolha um e vá.\n\nMapa de demonstração: marcas, agenda e vídeos são ilustrativos."
+const DEMO_BIO = "Aqui estão os lugares de São Paulo que eu mais gosto: onde tomo café sem pressa, onde levo quem vem de fora e onde volto sempre que bate a vontade de comer bem.\n\nTem padaria de bairro, restaurante para um jantar mais caprichado, bar para encontrar os amigos e alguns passeios. Escolha um e vá.\n\nMapa de demonstração: agenda e vídeos são ilustrativos."
 const EVENTS = new Set(['session', 'search', 'place_open', 'route_click', 'post_open', 'video_open', 'request'])
 const REPORT_REASONS = ['Informação errada', 'Sou o dono e quero corrigir', 'Conteúdo enganoso ou sem aviso de publicidade', 'Spam ou abuso']
 const esc = (s) => String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]))
@@ -43,7 +43,7 @@ export default function publicRoutes(app, x) {
     if (c.req.param('slug') !== DEMO_SLUG) return next()
     // o mapa abre em São Paulo, mesmo com lugares visitados em viagem
     const theme = { ...sanitizeTheme({ ...DEFAULT_THEME, accent: '#FFC400', bg: '#FFFFFF', tone: 'light', shape: 'circle', bio: DEMO_BIO, social: { instagram: true, tiktok: false } }), start: 'pick', startView: { lat: -23.565, lon: -46.655, zoom: 11.5 } }
-    return c.json({ creator: { handle: 'leosminetti', tiktok: null, slug: DEMO_SLUG, displayName: 'Leonardo Minetti', avatarUrl: '/photos/leonardo.jpg', realProfile: true, theme, links: [], cover: false, symbols: {}, demo: true, showBrand: false, ...demoArrival() }, places: DEMO_MAP.places, routes: DEMO_MAP.routes })
+    return c.json({ creator: { handle: 'leosminetti', tiktok: null, slug: DEMO_SLUG, displayName: 'Leonardo Minetti', avatarUrl: '/photos/leonardo.jpg', realProfile: true, theme, links: [], cover: false, symbols: {}, demo: true, showBrand: false, ...ownerArrival() }, places: DEMO_MAP.places, routes: DEMO_MAP.routes })
   })
   app.get('/api/public/:slug', (c) => {
     const row = live(c.req.param('slug'))

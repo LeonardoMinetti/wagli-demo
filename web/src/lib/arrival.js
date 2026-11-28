@@ -9,10 +9,12 @@ export const highlights = (places, categories) => ({
 
 export const safeLink = (u) => (/^https:\/\/[^\s"'<>]+$/i.test(String(u || '')) ? u : null)
 // logo de marca: SVG (ou PNG já salvo antes), sempre embutido; é pintado de uma cor só na tela
-export const safeLogo = (u) => (/^data:image\/(svg\+xml|png);base64,[A-Za-z0-9+/=]+$/.test(String(u || '')) ? u : null)
-export const brandsOf = (creator) => (creator.brands || []).filter((b) => b && b.name).map((b) => ({ name: String(b.name).slice(0, 40), logo: safeLogo(b.logo), url: safeLink(b.url) }))
+// além do embutido, aceitamos um logo SVG do Wikimedia Commons ou um arquivo de marca do próprio site
+export const safeLogo = (u) => (/^data:image\/(svg\+xml|png);base64,[A-Za-z0-9+/=]+$|^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/[A-Za-z0-9_%./-]+\.svg$|^(\/[A-Za-z0-9-]+)?\/sponsors\/[a-z0-9-]+\.(png|svg)$/.test(String(u || '')) ? u : null)
+const hidden = (creator, block) => !!creator.theme?.hide?.includes(block)
+export const brandsOf = (creator) => (hidden(creator, 'brands') ? [] : creator.brands || []).filter((b) => b && b.name).map((b) => ({ name: String(b.name).slice(0, 40), logo: safeLogo(b.logo), url: safeLink(b.url), ...(b.plate ? { plate: true } : {}) }))
 // agenda do criador em ordem de data; o que já passou some sozinho (`event` é o formato antigo, de um só)
-export const agendaOf = (creator, today = new Date().toISOString().slice(0, 10)) => [...(creator.agenda || []), ...(creator.event ? [creator.event] : [])]
+export const agendaOf = (creator, today = new Date().toISOString().slice(0, 10)) => (hidden(creator, 'agenda') ? [] : [...(creator.agenda || []), ...(creator.event ? [creator.event] : [])])
   .filter((e) => e && e.title && /^\d{4}-\d{2}-\d{2}$/.test(e.date || '') && e.date >= today)
   .map((e) => ({ title: String(e.title).slice(0, 80), date: e.date, place: String(e.place || '').slice(0, 80), url: safeLink(e.url) }))
   .sort((a, b) => a.date.localeCompare(b.date))

@@ -144,7 +144,6 @@ export default function MapSnippet({ place, theme, symbols, size, style, aspect,
     <div ref={ref} className="pph msnip" role={onWatch ? 'group' : 'img'} aria-label={`Localização de ${place.name} no mapa`} style={{ ...(size ? { width: size, height: size } : {}), ...(aspect ? { aspectRatio: aspect } : {}), ...style }}>
       {src && <img src={src} alt="" />}
       <span className="msnip-pin" dangerouslySetInnerHTML={{ __html: pin }} />
-      {big && <small>© OpenStreetMap</small>}
       {/* capa do post do criador, no canto, para reconhecer o lugar */}
       {showCover && (onWatch
         ? <button type="button" className="mcover" onClick={onWatch} aria-label={`Assistir ao post sobre ${place.name}`}><img src={place.cover} alt="" loading="lazy" /><i aria-hidden="true">▶</i></button>

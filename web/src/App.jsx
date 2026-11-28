@@ -15,6 +15,7 @@ import Saved from './pages/Saved.jsx'
 import { Guides, AdminGuides } from './pages/Guides.jsx'
 import { RestaurantsLanding } from './landing/restaurants.jsx'
 import Public from './pub/Public.jsx'
+import { Skin } from './lib/skin.jsx'
 import { STATIC } from './lib/base.js'
 import { api } from './api.js'
 import { TIERS, TIER_NAMES } from '../../server/plans.js'
@@ -71,4 +72,4 @@ function DemoBar() {
     </>
   )
 }
-export default function App() { return <MeProvider><Routes /><DemoBar /><Toaster /></MeProvider> }
+export default function App() { return <MeProvider><Routes /><DemoBar /><Skin /><Toaster /></MeProvider> }

@@ -118,7 +118,7 @@ export function useSaved(slug) {
   return { ids: logged && remote ? remote : local, toggle, logged }
 }
 // Aviso sobre onde os salvos ficam (e como levar para a conta de explorador)
-export function SavedNote({ saved, slug }) {
+export function SavedNote({ saved, slug, onLogin }) {
   const { me } = useMe()
   if (saved.logged) return <div className="box xs">Seus salvos ficam na sua conta, em qualquer aparelho. <Link to="/salvos" style={{ fontWeight: 700 }}>Ver salvos de todos os mapas</Link></div>
   if (STATIC && me?.user) return <div className="box xs">Você entrou na demonstração: seus salvos ficam só neste aparelho. <Link to="/salvos" style={{ fontWeight: 700 }}>Ver salvos de todos os mapas</Link></div>
@@ -126,7 +126,7 @@ export function SavedNote({ saved, slug }) {
     <div className="box">
       <b className="sm">Seus salvos estão só neste aparelho</b>
       <span className="xs mut">Entre como explorador para guardá-los na conta e ver os salvos de todos os mapas. Sem senha{STATIC ? ' (na demonstração, nada é enviado)' : ''}.</span>
-      <Link className="pb sm" to={`/entrar?como=explorador&voltar=${encodeURIComponent(`/@${slug}`)}`}>Entrar como explorador</Link>
+      {onLogin ? <button type="button" className="pb sm" onClick={onLogin}>Entrar sem sair do mapa</button> : <Link className="pb sm" to={`/entrar?como=explorador&voltar=${encodeURIComponent(`/@${slug}`)}`}>Entrar como explorador</Link>}
     </div>
   )
 }
@@ -335,7 +335,7 @@ export function RouteEmojis({ places, theme }) {
 export const SponsorMark = ({ s }) => s ? <span className="sp-logo" title={`Patrocinado por ${s.brand}`}>{s.logo ? <img src={withBase(s.logo)} alt={s.brand} /> : <b>{s.brand}</b>}</span> : null
 export const SponsorTag = ({ s }) => s ? <span className="sp-tag">Roteiro patrocinado</span> : null
 // Roteiro pago: o seguidor vê só as primeiras paradas. A cobrança ainda não existe; na demonstração a compra é simulada.
-function RouteLock({ route, preview }) {
+export function RouteLock({ route, preview }) {
   const [busy, setBusy] = useState(false)
   const buy = async () => { setBusy(true); try { await api(`/public/${DEMO_SLUG}/buy`, { method: 'POST', body: { routeId: route.id } }); window.dispatchEvent(new Event('wagli:refetch')); toast('Roteiro liberado (simulação)') } finally { setBusy(false) } }
   return (
@@ -350,7 +350,7 @@ function RouteLock({ route, preview }) {
   )
 }
 // Produtos que o criador indica no roteiro (plano Pro): links dele, abrem em outra aba
-function RouteProducts({ products, preview }) {
+export function RouteProducts({ products, preview }) {
   return (
     <section className="rt-prod" aria-label="Produtos deste roteiro">
       <h3 className="pt">Produtos deste roteiro</h3>
